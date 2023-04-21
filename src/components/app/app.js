@@ -13,8 +13,8 @@ class App extends Component {
         super(props);
         this.state = {
             data: [
-                {name: 'Fedor Pilikov', salary: 1000, increase: false, promotion: false, id: 1},
-                {name: 'Semen Grud', salary: 800, increase: false, promotion: false, id: 2},
+                {name: 'Fedor Pilikov', salary: 1000, increase: true, promotion: false, id: 1},
+                {name: 'Semen Grud', salary: 800, increase: false, promotion: true, id: 2},
                 {name: 'Ivan Strent', salary: 700, increase: false, promotion: false, id: 3},
             ]
         }
@@ -72,7 +72,7 @@ class App extends Component {
 
         return (
             <div className="app">
-                <AppInfo/>
+                <AppInfo data={data}/>
                 <div className="search-panel">
                     <SearchPanel/>
                     <AppFilter/>
