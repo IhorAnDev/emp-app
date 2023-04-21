@@ -1,5 +1,6 @@
 import AppInfo from "../app-info/app-info";
 import "./app.css";
+import { v4 as uuidv4 } from 'uuid';
 import SearchPanel from "../search-panel/search-panel";
 import AppFilter from "../app-filter/app-filter";
 import EmployeesList from "../employees-list/employees-list";
@@ -25,6 +26,16 @@ class App extends Component {
         }))
     }
 
+    newEmployee = (name, salary) => {
+        const {data} = this.state;
+        const id = uuidv4();
+        const newEmpObj = {name, salary, increase: false, id};
+        const newData = [...data, newEmpObj];
+        this.setState({
+            data: newData
+        })
+    }
+
 
     render() {
 
@@ -40,7 +51,9 @@ class App extends Component {
                 <EmployeesList data={data}
                                onDelete={this.deletePerson}
                 />
-                <EmployeesAddForm/>
+                <EmployeesAddForm addEmployee={(name, salary) => {
+                    this.newEmployee(name, salary);
+                }}/>
             </div>
         )
     }
