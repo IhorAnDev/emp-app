@@ -36,28 +36,14 @@ class App extends Component {
         })
     }
 
-    onToggleIncrease = (id) => {
 
-        this.setState(({data}) => ({
-            data: data.map(emp => {
-                if (emp.id === id) {
-                    return {
-                        ...emp,
-                        increase: !emp.increase
-                    }
-                }
-                return emp;
-            })
-        }))
-    }
-
-    onToggleRise = (id) => {
+    onToggleProp = (id, prop) => {
         this.setState(prevState => {
             const newData = prevState.data.map(emp => {
                 if (emp.id === id) {
                     return {
                         ...emp,
-                        promotion: !emp.promotion
+                        [prop]: !emp[prop]
                     }
                 }
                 return emp;
@@ -67,20 +53,23 @@ class App extends Component {
     }
 
     render() {
-
         const {data} = this.state;
+        const totalEmp = data.length;
+        const empToAward = data.filter(emp => emp.increase).length;
 
         return (
             <div className="app">
-                <AppInfo data={data}/>
+                <AppInfo
+                    totalEmp={totalEmp}
+                    empToAward={empToAward}
+                />
                 <div className="search-panel">
                     <SearchPanel/>
                     <AppFilter/>
                 </div>
                 <EmployeesList data={data}
                                onDelete={this.deletePerson}
-                               onToggleIncrease={this.onToggleIncrease}
-                               onToggleRise={this.onToggleRise}
+                               onToggleProp={this.onToggleProp}
                 />
                 <EmployeesAddForm addEmployee={(name, salary) => {
                     this.newEmployee(name, salary);
