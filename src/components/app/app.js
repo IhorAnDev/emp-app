@@ -16,7 +16,9 @@ class App extends Component {
                 {name: 'Fedor Pilikov', salary: 1000, increase: true, promotion: false, id: 1},
                 {name: 'Semen Grud', salary: 800, increase: false, promotion: true, id: 2},
                 {name: 'Ivan Strent', salary: 700, increase: false, promotion: false, id: 3},
-            ]
+            ],
+            searchInput: '',
+            filter: ''
         }
     }
 
@@ -52,10 +54,29 @@ class App extends Component {
         })
     }
 
+    searchEmp = (items, term) => {
+        if (term.length === 0) {
+            return items;
+        }
+        return items.filter(item => {
+            return item.name.indexOf(term) > -1
+        })
+    }
+
+    filterEmp = (filter) => {
+        
+    }
+
+    onPutFromSearchInput = (searchInput) => {
+        this.setState({searchInput})
+    }
+
     render() {
-        const {data} = this.state;
+        const {data, searchInput, filter} = this.state;
         const totalEmp = data.length;
         const empToAward = data.filter(emp => emp.increase).length;
+        const visibleData = this.searchEmp(data, searchInput);
+
 
         return (
             <div className="app">
@@ -64,10 +85,10 @@ class App extends Component {
                     empToAward={empToAward}
                 />
                 <div className="search-panel">
-                    <SearchPanel/>
+                    <SearchPanel onPutFromSearchInput={this.onPutFromSearchInput}/>
                     <AppFilter/>
                 </div>
-                <EmployeesList data={data}
+                <EmployeesList data={visibleData}
                                onDelete={this.deletePerson}
                                onToggleProp={this.onToggleProp}
                 />
