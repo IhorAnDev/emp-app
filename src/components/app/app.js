@@ -7,6 +7,7 @@ import EmployeesList from "../employees-list/employees-list";
 import EmployeesAddForm from "../employees-add-form/employees-add-form";
 import {Component} from "react";
 
+//TODO Rewrite on hook
 class App extends Component {
 
     constructor(props) {
@@ -16,6 +17,8 @@ class App extends Component {
                 {name: 'Fedor Pilikov', salary: 1000, increase: true, promotion: false, id: 1},
                 {name: 'Semen Grud', salary: 800, increase: false, promotion: true, id: 2},
                 {name: 'Ivan Strent', salary: 700, increase: false, promotion: false, id: 3},
+                {name: 'Ihor Antonov', salary: 1700, increase: true, promotion: true, id: 4},
+                {name: 'Alexandra Pipetkova', salary: 1200, increase: false, promotion: false, id: 5},
             ],
             searchInput: '',
             filter: ''
@@ -63,19 +66,30 @@ class App extends Component {
         })
     }
 
-    filterEmp = (filter) => {
-        
+    filterEmp = (items, filter) => {
+        switch (filter) {
+            case 'promotion':
+                return items.filter(item => item.promotion);
+            case 'more':
+                return items.filter(item => item.salary > 1000);
+            default:
+                return items;
+        }
     }
 
     onPutFromSearchInput = (searchInput) => {
         this.setState({searchInput})
     }
 
+    setFilter = (filter) => {
+        this.setState({filter});
+    }
+
     render() {
         const {data, searchInput, filter} = this.state;
         const totalEmp = data.length;
         const empToAward = data.filter(emp => emp.increase).length;
-        const visibleData = this.searchEmp(data, searchInput);
+        const visibleData = this.searchEmp(this.filterEmp(data, filter), searchInput);
 
 
         return (
@@ -86,7 +100,7 @@ class App extends Component {
                 />
                 <div className="search-panel">
                     <SearchPanel onPutFromSearchInput={this.onPutFromSearchInput}/>
-                    <AppFilter/>
+                    <AppFilter setFilter={this.setFilter}/>
                 </div>
                 <EmployeesList data={visibleData}
                                onDelete={this.deletePerson}
