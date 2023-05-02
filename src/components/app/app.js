@@ -31,6 +31,7 @@ class App extends Component {
         }))
     }
 
+
     newEmployee = (name, salary) => {
         const {data} = this.state;
         const id = uuidv4();
