@@ -13,6 +13,7 @@ const initialState = {
     filter: ''
 };
 
+
 // Define actions
 const ADD_EMPLOYEE = 'ADD_EMPLOYEE';
 const DELETE_EMPLOYEE = 'DELETE_EMPLOYEE';
